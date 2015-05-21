@@ -1,0 +1,45 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
+
+<polymer-element name="data-joiner" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <core-ajax
+    auto
+    url="../../api/block_groups.geojson"
+    handleAs="json"
+    on-core-response="{{handleResponse1}}"></core-ajax>
+    <core-ajax
+    auto
+    url="../../api/block_group_affordability.json"
+    handleAs="json"
+    on-core-response="{{handleResponse2}}"></core-ajax>
+  </template>
+
+  <script>
+    (function () {
+      Polymer({
+        // define element prototype here
+        geojsonLoaded:false,
+        affordabilityDataLoaded:false,
+        geojson:undefined,
+        affordability:undefined,
+        ready: function(){
+          console.log('data-joiner ready');
+        },
+        handleResponse1: function(event){
+          this.geojson = event.detail.response;
+          console.log(this.geojson);
+        },
+        handleResponse2: function(event){
+          this.affordability = event.detail.response;
+          console.log(this.affordability);
+        }
+      });
+    })();
+  </script>
+</polymer-element>
