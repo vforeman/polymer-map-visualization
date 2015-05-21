@@ -1,0 +1,57 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../pci-api/pci-api.html">
+<link rel="import" href="../block-group-api/block-group-api.html">
+
+<polymer-element name="hutrc-app" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      google-map {
+        padding-top:16px;
+        display: block;
+        height: 600px;
+      }
+    </style>
+    <block-group-api blockgroup="{{blockgroup}}" ></block-group-api>
+    <pci-api pci="{{pci}}"></pci-api>
+    <google-map
+      id="hutrcmap"
+      apiKey="{{apiKey}}"
+      map="{{map}}"
+      latitude="38.922684" longitude="-77.019438"
+      zoom="12"
+      maxzoom="20"
+      minZoom="12"></google-map>
+  </template>
+  <script>
+    (function () {
+      Polymer({
+        // define element prototype here
+        ready: function(){
+          this.apiKey = "AIzaSyAQ8fwfkyjhln59a2ODNDNF2f6lXZhA_aU";
+          this.mapStyle = [
+            {"elementType":"labels.icon","stylers":[{"color":"#365779"},{"visibility":"off"}]}
+            ,{"featureType":"landscape","stylers":[{"color":"#042E58"}]}
+            ,{"featureType":"road.highway","stylers":[{"color":"#A51A1D"}]}
+            ,{"featureType":"road.local","stylers":[{"color":"#808080"},{"visibility":"off"}]}
+            ,{"featureType":"road.arterial","stylers":[{"color":"#808080"},{"visibility":"off"}]}
+            ,{"elementType":"labels.text","stylers":[{"color":"#ffffff"},{"weight":0.1}]}
+            ,{"featureType":"poi","stylers":[{"color":"#365779"}]}
+            ,{"featureType":"poi","elementType":"labels.text","stylers":[{"color":"#ffffff"}]}
+            ,{"featureType":"water"}
+            ,{"featureType":"transit","stylers":[{"color":"#365779"}]}];
+        },
+        pciChanged: function(oldVal, newVal, el){
+          console.log("pci changed: ",oldVal, newVal);
+        },
+        blockgroupChanged: function(oldVal, newVal, el){
+          console.log("blockgroup changed: ",oldVal, newVal);
+
+        }
+      });
+    })();
+  </script>
+</polymer-element>
