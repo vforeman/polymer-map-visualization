@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
 
-<polymer-element name="data-joiner" attributes="">
+<polymer-element name="data-joiner" attributes="geojsonData">
   <template>
     <style>
       :host {
@@ -34,10 +34,35 @@
         handleResponse1: function(event){
           this.geojson = event.detail.response;
           console.log(this.geojson);
+          this.geojsonLoaded = true;
+          if(this.geojsonLoaded && this.affordabilityDataLoaded){
+            this.joinData();
+          }
         },
         handleResponse2: function(event){
           this.affordability = event.detail.response;
           console.log(this.affordability);
+          this.affordabilityDataLoaded = true;
+          if(this.geojsonLoaded && this.affordabilityDataLoaded){
+            this.joinData();
+          }
+        },
+        joinData: function(){
+          this.geojson.features.forEach(function(el,i,arr){
+            console.log(el.properties["GEOID"]);
+            this.affordability.forEach(function(el,i,arr){
+              //geojson element is 'this'
+              //affordability element is 'el'
+              if(this.properties["GEOID"] == el["blkgrp"]){
+                console.log(el);
+                this.properties.affordability = el;
+
+
+              }
+            },el)
+            console.log(el);
+          },this)
+          console.info(JSON.stringify(this.geojson,null,'  '));
         }
       });
     })();
