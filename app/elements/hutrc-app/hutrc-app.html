@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/google-map/google-map.html">
 <link rel="import" href="../pci-api/pci-api.html">
 <link rel="import" href="../block-group-api/block-group-api.html">
+<link rel="import" href="../mapbox-map/mapbox-map.html">
 
 <polymer-element name="hutrc-app" attributes="">
   <template>
@@ -14,10 +15,16 @@
         display: block;
         height: 600px;
       }
+      mapbox-map {
+        padding-top:16px;
+        display: block;
+        height: 600px;
+      }
     </style>
     <block-group-api blockgroup="{{blockgroup}}" ></block-group-api>
     <pci-api pci="{{pci}}"></pci-api>
-    <google-map
+    <mapbox-map></mapbox-map>
+    <!-- <google-map
       id="hutrcmap"
       apiKey="{{apiKey}}"
       map="{{map}}"
@@ -26,7 +33,7 @@
       zoom="12"
       maxzoom="20"
       minZoom="12"
-      on-mapReady="{{mapReady}}"></google-map>
+      on-mapReady="{{mapReady}}"></google-map> -->
   </template>
   <script>
     (function () {
