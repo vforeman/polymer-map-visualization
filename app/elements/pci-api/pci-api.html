@@ -1,18 +1,33 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
 
-<polymer-element name="pci-api" attributes="">
+<polymer-element name="pci-api" attributes="pci">
   <template>
     <style>
       :host {
         display: block;
       }
     </style>
+    <core-ajax
+    auto
+    url="../../api/PCI2013.geojson"
+    handleAs="json"
+    on-core-response="{{handleResponse}}"></core-ajax>
   </template>
   <script>
     (function () {
       Polymer({
         // define element prototype here
+        pciLoaded:false,
+        pci:undefined,
+        ready: function(){
+          console.log('pci ready');
+        },
+        handleResponse: function(event){
+          this.pci = event.detail.response;
+          console.log(this.pci);
+          this.pciLoaded == true;
+        }
       });
     })();
   </script>

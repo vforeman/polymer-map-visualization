@@ -1,18 +1,33 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
 
-<polymer-element name="block-group-api" attributes="">
+<polymer-element name="block-group-api" attributes="blockgroup">
   <template>
     <style>
       :host {
         display: block;
       }
     </style>
+    <core-ajax
+    auto
+    url="../../api/block_group_affordability.geojson"
+    handleAs="json"
+    on-core-response="{{handleResponse}}"></core-ajax>
   </template>
   <script>
     (function () {
       Polymer({
         // define element prototype here
+        blockgroupLoaded:false,
+        blockgroup:undefined,
+        ready: function(){
+          console.log('blockgroup ready');
+        },
+        handleResponse: function(event){
+          this.blockgroup = event.detail.response;
+          console.log(this.blockgroup);
+          this.blockgroupLoaded == true;
+        }
       });
     })();
   </script>
