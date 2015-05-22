@@ -940,18 +940,26 @@
         },
         blockgroupDataChanged: function(oldVal, newVal, el){
           console.log("blockgroupData geojson changed in mapbox: ", oldVal, newVal)
-          this.blockgroupLayer = this.api.mapbox.featureLayer(this.blockgroupData,{
-            style: this.blockgroupStyle
-          }).addTo(this.map);
+          // this.blockgroupLayer = this.api.mapbox.featureLayer(this.blockgroupData,{
+          //   style: this.blockgroupStyle
+          // }).addTo(this.map);
         },
         pciStyle: function(feature) {
-          switch (feature.properties.party) {
-              case 'Republican': return {color: "#ff0000"};
-              case 'Democrat':   return {color: "#0000ff"};
+          switch (feature.properties.CONDITIONDESCRIPTION) {
+              case 'Excellent': return {color: "#006400"};
+              break;
+              case 'Good':   return {color: "#66CC00"};
+              break;
+              case 'Fair': return {color: "#FFCC00"};
+              break;
+              case 'Poor':   return {color: "#FF0000"};
+              break;
           }
         },
         blockgroupStyle: function(feature) {
           switch (feature.properties.party) {
+              case 'Republican': return {color: "#ff0000"};
+              case 'Democrat':   return {color: "#0000ff"};
               case 'Republican': return {color: "#ff0000"};
               case 'Democrat':   return {color: "#0000ff"};
           }
