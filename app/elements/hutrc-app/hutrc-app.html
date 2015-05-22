@@ -23,7 +23,9 @@
     </style>
     <block-group-api blockgroup="{{blockgroup}}" ></block-group-api>
     <pci-api pci="{{pci}}"></pci-api>
-    <mapbox-map></mapbox-map>
+    <mapbox-map
+      blockgroupData="{{blockgroup}}"
+      pciData="{{pci}}"></mapbox-map>
     <!-- <google-map
       id="hutrcmap"
       apiKey="{{apiKey}}"

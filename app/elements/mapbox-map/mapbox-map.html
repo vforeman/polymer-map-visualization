@@ -1,7 +1,32 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="mapboxjs.html">
 
-<polymer-element name="mapbox-map" attributes="api apikey clientID latitude longitude zoom">
+<polymer-element name="mapbox-layer" attributes="map api geojson layer">
+  <template>
+    <style>
+    :host {
+      display: block;
+    }
+    </style>
+
+
+  </template>
+  <script>
+    (function () {
+      Polymer({
+        // define element prototype here
+        map: null,
+        api: null,
+        geojson: null,
+        layer: null,
+        ready: function(){
+
+        }
+      });
+    })();
+  </script>
+</polymer-element>
+<polymer-element name="mapbox-map" attributes="blockgroupData pciData map api apikey clientID latitude longitude zoom">
   <template>
     <style>
       :host {
@@ -879,7 +904,7 @@
     </style>
     <mapboxjs></mapboxjs>
     <map id="map"></map>
-
+    <content id="layers" select="mapbox-layer"></content>
   </template>
   <script>
     (function () {
@@ -887,15 +912,34 @@
         // define element prototype here
         map: null,
         api: null,
+        blockgroupData: null,
+        pciData: null,
         apiKey: 'pk.eyJ1IjoidmZvcmVtYW4iLCJhIjoiQjRrUFhqSSJ9._NeHuXX8F4uIBficUfSW1g',
         clientId: 'examples.map-i875kd35',
         latitude: 38.922684,
         longitude: -77.019438,
-        zoom: 10,
+        zoom: 11,
+        created: function(){
+
+        },
         domReady: function(){
           this.api = L;
           this.api.mapbox.accessToken = this.apiKey;
-          this.map = L.mapbox.map(this.$.map, this.clientId);
+          this.map = L.mapbox.map(this.$.map, this.clientId,{
+            center: this.api.latLng(this.latitude, this.longitude),
+            zoom: this.zoom,
+            minZoom: 10,
+            mazZoom: 20
+          });
+        },
+        pciDataChanged: function(oldVal, newVal, el){
+          console.log("pciData geojson changed in mapbox: ", oldVal, newVal)
+          this.pciLayer = this.api.mapbox.featureLayer(this.pciData).addTo(this.map);
+        },
+        blockgroupDataChanged: function(oldVal, newVal, el){
+          console.log("blockgroupData geojson changed in mapbox: ", oldVal, newVal)
+          this.blockgroupLayer = this.api.mapbox.featureLayer(this.blockgroupData).addTo(this.map);
+
         }
       });
     })();
