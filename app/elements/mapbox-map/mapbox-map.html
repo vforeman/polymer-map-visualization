@@ -943,7 +943,6 @@
           this.blockgroupLayer = this.api.mapbox.featureLayer(this.blockgroupData,{
             style: this.blockgroupStyle
           }).addTo(this.map);
-
         },
         pciStyle: function(feature) {
           var grade = feature.properties.X013_PCI / 100;
@@ -951,35 +950,17 @@
           var g = 255 * grade;
           var b = 0;
           var hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-          // console.log(hex)
-          // console.log(grade);
-
+          // console.log(this);
           return {
               color: hex,
               weight: 3
           };
-          // switch (feature.properties.CONDITIONDESCRIPTION) {
-          //     case 'Excellent': return {color: "#006400"};
-          //     break;
-          //     case 'Good':   return {color: "#66CC00"};
-          //     break;
-          //     case 'Fair': return {color: "#FFCC00"};
-          //     break;
-          //     case 'Poor':   return {color: "#FF0000"};
-          //     break;
-          // }
         },
         blockgroupStyle: function(feature) {
           var grade = (feature.properties.affordability.blkgrp_median_income_owners / 290000);
-          // console.log(grade)
           return {
             stroke:false, fill:true, fillColor: "#0000ff", fillOpacity: grade
           };
-          // switch (true) {
-          //     case (feature.properties.affordability.blkgrp_median_income_owners < 100000): return {stroke:false, fill:true, fillColor: "#0000ff"};
-          //     case (feature.properties.affordability.blkgrp_median_income_owners >= 100000):   return {stroke:false, fill:true, fillColor: "#ff0000"};
-          // }
-
         },
         rgbToHex: function (r, g, b) {
           return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
