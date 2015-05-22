@@ -934,9 +934,9 @@
         },
         pciDataChanged: function(oldVal, newVal, el){
           console.log("pciData geojson changed in mapbox: ", oldVal, newVal)
-          // this.pciLayer = this.api.mapbox.featureLayer(this.pciData,{
-          //   style: this.pciStyle
-          // }).addTo(this.map);
+          this.pciLayer = this.api.mapbox.featureLayer(this.pciData,{
+            style: this.pciStyle
+          }).addTo(this.map);
         },
         blockgroupDataChanged: function(oldVal, newVal, el){
           console.log("blockgroupData geojson changed in mapbox: ", oldVal, newVal)
@@ -946,20 +946,32 @@
 
         },
         pciStyle: function(feature) {
-          switch (feature.properties.CONDITIONDESCRIPTION) {
-              case 'Excellent': return {color: "#006400"};
-              break;
-              case 'Good':   return {color: "#66CC00"};
-              break;
-              case 'Fair': return {color: "#FFCC00"};
-              break;
-              case 'Poor':   return {color: "#FF0000"};
-              break;
-          }
+          var grade = feature.properties.X013_PCI / 100;
+          var r = 255 * (1 - grade);
+          var g = 255 * grade;
+          var b = 0;
+          var hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+          // console.log(hex)
+          // console.log(grade);
+
+          return {
+              color: hex,
+              weight: 3
+          };
+          // switch (feature.properties.CONDITIONDESCRIPTION) {
+          //     case 'Excellent': return {color: "#006400"};
+          //     break;
+          //     case 'Good':   return {color: "#66CC00"};
+          //     break;
+          //     case 'Fair': return {color: "#FFCC00"};
+          //     break;
+          //     case 'Poor':   return {color: "#FF0000"};
+          //     break;
+          // }
         },
         blockgroupStyle: function(feature) {
           var grade = (feature.properties.affordability.blkgrp_median_income_owners / 290000);
-          console.log(grade)
+          // console.log(grade)
           return {
             stroke:false, fill:true, fillColor: "#0000ff", fillOpacity: grade
           };
@@ -968,6 +980,9 @@
           //     case (feature.properties.affordability.blkgrp_median_income_owners >= 100000):   return {stroke:false, fill:true, fillColor: "#ff0000"};
           // }
 
+        },
+        rgbToHex: function (r, g, b) {
+          return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
         }
       });
     })();
