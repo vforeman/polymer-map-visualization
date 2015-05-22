@@ -920,7 +920,12 @@
         longitude: -77.019438,
         zoom: 11,
         created: function(){
+          this.pciStyle = {
 
+          };
+          this.blockgroupLayer = {
+
+          }
         },
         domReady: function(){
           this.api = L;
@@ -934,11 +939,15 @@
         },
         pciDataChanged: function(oldVal, newVal, el){
           console.log("pciData geojson changed in mapbox: ", oldVal, newVal)
-          this.pciLayer = this.api.mapbox.featureLayer(this.pciData).addTo(this.map);
+          this.pciLayer = this.api.mapbox.featureLayer(this.pciData,{
+            style: this.pciStyle
+          }).addTo(this.map);
         },
         blockgroupDataChanged: function(oldVal, newVal, el){
           console.log("blockgroupData geojson changed in mapbox: ", oldVal, newVal)
-          this.blockgroupLayer = this.api.mapbox.featureLayer(this.blockgroupData).addTo(this.map);
+          this.blockgroupLayer = this.api.mapbox.featureLayer(this.blockgroupData,{
+            style: this.blockgroupStyle
+          }).addTo(this.map);
 
         }
       });

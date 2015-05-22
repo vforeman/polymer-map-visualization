@@ -34,11 +34,20 @@
 
         <!-- Drawer Content -->
         <core-menu selected="0">
-          <core-item label="Yo"></core-item>
-          <core-item label="Polymer"></core-item>
-          <core-item label="App"></core-item>
+          <core-item label="Block Group Layer"></core-item>
+          <core-item label="Street Condition Layer"></core-item>
+          <!-- <core-item label="App"></core-item> -->
         </core-menu>
-
+        <div layout vertical>
+          <core-label>
+            Block Group Layer
+            <paper-toggle-button></paper-toggle-button>
+          </core-label>
+          <core-label>
+            Pavement Condition Layer
+            <paper-toggle-button></paper-toggle-button>
+          </core-label>
+        </div>
       </core-header-panel>
 
       <!-- Main -->
@@ -52,7 +61,7 @@
 
         <!-- Main Content -->
         <hutrc-app></hutrc-app>
-        
+
       </core-header-panel>
     </core-drawer-panel>
 

@@ -31,7 +31,9 @@ body {
 [drawer] {
   background-color: #EEEEEE;
 }
-
+paper-toggle-button{
+  margin-left: 8px;
+}
 core-toolbar {
   color: #FAFAFA;
   background-color: #009688;
