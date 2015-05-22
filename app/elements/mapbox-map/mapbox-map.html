@@ -934,15 +934,16 @@
         },
         pciDataChanged: function(oldVal, newVal, el){
           console.log("pciData geojson changed in mapbox: ", oldVal, newVal)
-          this.pciLayer = this.api.mapbox.featureLayer(this.pciData,{
-            style: this.pciStyle
-          }).addTo(this.map);
+          // this.pciLayer = this.api.mapbox.featureLayer(this.pciData,{
+          //   style: this.pciStyle
+          // }).addTo(this.map);
         },
         blockgroupDataChanged: function(oldVal, newVal, el){
           console.log("blockgroupData geojson changed in mapbox: ", oldVal, newVal)
           this.blockgroupLayer = this.api.mapbox.featureLayer(this.blockgroupData,{
             style: this.blockgroupStyle
           }).addTo(this.map);
+
         },
         pciStyle: function(feature) {
           switch (feature.properties.party) {
@@ -951,10 +952,15 @@
           }
         },
         blockgroupStyle: function(feature) {
-          switch (feature.properties.party) {
-              case 'Republican': return {color: "#ff0000"};
-              case 'Democrat':   return {color: "#0000ff"};
-          }
+          var grade = (feature.properties.affordability.blkgrp_median_income_owners / 290000);
+          console.log(grade)
+          return {
+            stroke:false, fill:true, fillColor: "#0000ff", fillOpacity: grade
+          };
+          // switch (true) {
+          //     case (feature.properties.affordability.blkgrp_median_income_owners < 100000): return {stroke:false, fill:true, fillColor: "#0000ff"};
+          //     case (feature.properties.affordability.blkgrp_median_income_owners >= 100000):   return {stroke:false, fill:true, fillColor: "#ff0000"};
+          // }
         }
       });
     })();
