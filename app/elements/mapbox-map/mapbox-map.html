@@ -918,7 +918,7 @@
         clientId: 'examples.map-i875kd35',
         latitude: 38.922684,
         longitude: -77.019438,
-        zoom: 11,
+        zoom: 14,
         created: function(){
 
         },
@@ -931,18 +931,29 @@
             minZoom: 10,
             mazZoom: 20
           });
+          this.map.attributionControl.addAttribution("Created by Victor Foreman & Michelle Koch @ Howard University");
         },
         pciDataChanged: function(oldVal, newVal, el){
           console.log("pciData geojson changed in mapbox: ", oldVal, newVal)
-          this.pciLayer = this.api.mapbox.featureLayer(this.pciData,{
-            style: this.pciStyle
-          }).addTo(this.map);
+          // this.pciLayer = this.api.mapbox.featureLayer(this.pciData,{
+          //   style: this.pciStyle
+          // }).addTo(this.map);
         },
         blockgroupDataChanged: function(oldVal, newVal, el){
           console.log("blockgroupData geojson changed in mapbox: ", oldVal, newVal)
-          this.blockgroupLayer = this.api.mapbox.featureLayer(this.blockgroupData,{
-            style: this.blockgroupStyle
-          }).addTo(this.map);
+          this.blockgroupLayer = this.api.geoJson(this.blockgroupData,{
+            style: this.blockgroupStyle,
+            onEachFeature: this.onEachBlockgroupFeature
+          })
+          .on('mouseover',function(e){
+            console.log(e.layer.feature.properties);
+          })
+          .addTo(this.map);
+        },
+        onEachBlockgroupFeature: function(feature, layer){
+          console.log(layer)
+          var layerCenter = layer.getBounds().getCenter();
+          layer.bindLabel(feature.properties.affordability.blkgrp,{'nohide': true});
         },
         pciStyle: function(feature) {
           var grade = feature.properties.X013_PCI / 100;
@@ -957,6 +968,7 @@
           };
         },
         blockgroupStyle: function(feature) {
+          // console.log(feature)
           var grade = (feature.properties.affordability.blkgrp_median_income_owners / 290000);
           return {
             stroke:false, fill:true, fillColor: "#0000ff", fillOpacity: grade
